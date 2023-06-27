@@ -1,0 +1,22 @@
+@import "./config/_reset.module.scss";
+@import "./config/_variables.module.scss";
+
+/* Components */
+@import "./components/header.module.scss";
+@import "./components/stars.module.scss";
+@import "./components/signinForm.module.scss";
+
+/* Screens */
+@import "./screens/home.module.scss";
+@import "./screens/signin.module.scss";
+
+body {
+  margin-top: 7rem;
+  background-color: $Black;
+  color: $White;
+  font-family: $Font-Main;
+}
+
+.hidden {
+  display: none;
+}

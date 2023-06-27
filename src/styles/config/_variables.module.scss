@@ -1,0 +1,78 @@
+@font-face {
+  font-family: "DungGeunMo";
+  src: url(../../assets/DungGeunMo.ttf);
+}
+
+$White: #ffffff;
+$Black: #0e0e0f;
+$Gray: #707070;
+$DarkGray: #474646;
+$Highlight: #34f5e6;
+$Red: #ff0044;
+$Font-Main: "DungGeunMo";
+$Font-Sub: "SF Compact";
+$Font-Size-Head: 4rem;
+$Font-Size-Medium: 2.2rem;
+$Font-Size-Item: 1.1rem;
+$Font-Size-Small: 0.9rem;
+$Font-Size-Xsmall: 0.7rem;
+$Font-Weight-Heavy: 700;
+$Font-Weight-Bold: 600;
+$Font-Weight-Regular: 400;
+$Font-Weight-Light: 200;
+$Spacing-Large: 0.2rem;
+$Spacing-Small: 0.1rem;
+$Margin-XLarge: 5rem;
+$Margin-Large: 4rem;
+$Margin-Medium: 2rem;
+$Margin-Small: 1rem;
+$Margin-Xsmall: 0.5rem;
+$Max-Width: 1248px;
+$Z-Below: -1;
+$Z-Basic: 1;
+$Z-Medium: 10;
+$Z-Top: 100;
+$Transition: all 350ms ease;
+
+/*반응형 화면 크기*/
+$Mobile: 767px;
+$Tablet: 1023px;
+$Desktop: 1024px;
+
+/*반응형, 브라우저 크기가 767px 이하일때*/
+@mixin mobile {
+  @media (max-width: $Mobile) {
+    @content;
+  }
+}
+
+/*반응형, 브라우저 크기가 768이상, 1023px 이하일때*/
+@mixin tablet {
+  @media (min-width: ($Mobile+1)) and (max-width: $Tablet) {
+    @content;
+  }
+}
+
+/*반응형, 브라우저 크기가 1024px 이상일때*/
+@mixin desktop {
+  @media (min-width: $Desktop) {
+    @content;
+  }
+}
+
+/* 애니메이션 */
+@mixin animation($name, $duration, $delay, $iteration, $direction, $timing) {
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-delay: $delay;
+  animation-iteration-count: $iteration;
+  animation-direction: $direction;
+  animation-timing-function: $timing;
+}
+
+/* keyframe */
+@mixin keyframe($animation_name) {
+  @keyframes #{$animation_name} {
+    @content;
+  }
+}
