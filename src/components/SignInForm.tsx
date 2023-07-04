@@ -1,9 +1,18 @@
-import useAuthMutation from "hooks/mutations/useAuthMutation";
-import { emailRegex, passwordRegex } from "utils/regex";
+import useAuthMutation from "@hooks/mutations/useAuthMutation";
+import { emailRegex, passwordRegex } from "@utils/regex";
 import { useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import styles from "styles/styles.module.scss";
-import robot from "assets/robot.png";
+import styles from "@styles/styles.module.scss";
+import robot from "@assets/img/robot.png";
+import speechBubble from "@assets/img/speechBubble.png";
+import onSigninButton from "@assets/img/onSigninButton.png";
+import offSigninButton from "@assets/img/offSigninButton.png";
+import kakaoButton from "@assets/img/kakaoButton.png";
+import naverButton from "@assets/img/naverButton.png";
+import googleButton from "@assets/img/googleButton.png";
+import signupButton from "@assets/img/signupButton.png";
+import forgotPWButton from "@assets/img/forgotPWButton.png";
+import FormInput from "./FormInput";
 
 export type LoginInputs = { email: string; password: string };
 
@@ -30,7 +39,6 @@ const SignInForm = () => {
   );
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    console.log(isValid);
     const { email, password } = data;
     if (isValid) {
       onLogin({ email, password });
@@ -42,35 +50,69 @@ const SignInForm = () => {
 
   return (
     <div className={styles.signin__form}>
-      <img src={robot} alt="robot" />
+      <div className={styles.sayRobot}>
+        <img
+          className={styles.speechBubble}
+          src={speechBubble}
+          alt="speechBubble"
+        />
+        <img className={styles.robot} src={robot} alt="robot" />
+        <p className={styles.say}>Please Sign-in!</p>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* 컴포넌트로 제작 예정 */}
-        <input
-          //   label="Email"
+        <FormInput
+          label="Email"
           type="email"
           {...register("email")}
-          //   isValid={emailIsValid}
-          //   errorMessage="이메일 형식에 맞지 않습니다."
-          //   {...register("email", {
-          //     required: true,
-          //     validate: (value) => emailRegex(value),
-          //   })}
+          isValid={emailIsValid}
+          errorMessage="Is out of format"
+          {...register("email", {
+            required: true,
+            validate: (value) => emailRegex(value),
+          })}
         />
-        <input
-          //   label="Password"
+        <FormInput
+          label="Password"
           type="password"
           {...register("password")}
-          //   isValid={passwordIsValid}
-          //   errorMessage="8자리 이상 비밀번호를 사용하세요."
-          //   {...register("password", {
-          //     required: true,
-          //     validate: (value) => passwordRegex(value),
-          //   })}
+          isValid={passwordIsValid}
+          errorMessage="Plz 6 digits or more"
+          {...register("password", {
+            required: true,
+            validate: (value) => passwordRegex(value),
+          })}
         />
+
         <button type="submit">
-          {isValid ? "Sign In" : <span>&#10005;</span>}
+          {isValid ? (
+            <img
+              className={styles.signinButton}
+              src={onSigninButton}
+              alt="signin"
+            />
+          ) : (
+            <img
+              className={styles.signinButton}
+              src={offSigninButton}
+              alt="signin"
+            />
+          )}
         </button>
+        <div className={styles.signupArea}>
+          <button>
+            <img src={signupButton} alt="signup" />
+          </button>
+          <button>
+            <img src={forgotPWButton} alt="forgotPW" />
+          </button>
+        </div>
       </form>
+      <div className={styles.snsArea}>
+        <img className={styles.snsButton} src={kakaoButton} alt="kakao" />
+        <img className={styles.snsButton} src={naverButton} alt="naver" />
+        <img className={styles.snsButton} src={googleButton} alt="google" />
+      </div>
     </div>
   );
 };

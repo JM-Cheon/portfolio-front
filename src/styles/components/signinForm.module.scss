@@ -1,13 +1,61 @@
 .signin__form {
-  form {
-    input {
-      width: 100%;
-      height: 48px;
-      padding: 0 10px;
-      box-sizing: border-box;
-      margin-bottom: 16px;
-      border-radius: 6px;
-      background-color: #f8f8f8;
+  width: 22rem;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .sayRobot {
+    min-width: 22rem;
+    min-height: 12rem;
+    position: relative;
+    img {
+      object-fit: contain;
+      position: absolute;
+      z-index: -1;
     }
+    .robot {
+      height: 6rem;
+      bottom: 0;
+    }
+    .speechBubble {
+      width: 100%;
+      top: 0;
+    }
+    .say {
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      font-size: 1.2rem;
+      color: $Black;
+    }
+  }
+
+  form {
+    border: 1px solid $White;
+    padding: 1rem;
+  }
+
+  .signinButton {
+    width: 22rem;
+  }
+
+  .signupArea {
+    display: flex;
+    justify-content: space-between;
+    img {
+      object-fit: contain;
+      height: 1.5rem;
+      margin-top: 0.5rem;
+    }
+  }
+
+  .snsArea {
+    margin-top: 1rem;
+  }
+  .snsButton {
+    margin-top: 1rem;
+    width: 22rem;
   }
 }

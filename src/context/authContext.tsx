@@ -1,16 +1,16 @@
-import AuthService from "api/authService";
-import React, { useContext, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { StorageControl } from "@utils/localStorage";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  //   onLogout: () => void;
-  onLogin: (email: string, password: string) => Promise<string>;
-  //   onSignUp: (email: string, password: string) => void;
+  onLogout: () => void;
+  onLogin: () => void;
 }
 
 const AuthContext = React.createContext<AuthContextType>({
   isLoggedIn: false,
-  onLogin: async (email: string, password: string) => "",
+  onLogout: () => {},
+  onLogin: () => {},
 });
 
 export const AuthContextProvider = ({
@@ -20,32 +20,27 @@ export const AuthContextProvider = ({
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  //   useEffect(() => {
-  //     const userToken = StorageControl.storageGetter("token");
-  //     const userEmail = StorageControl.storageGetter("email");
-  //     if (userToken && userEmail) {
-  //       setIsLoggedIn(true);
-  //     }
-  //   }, []);
-
-  const loginHandler = async (email: string, password: string) => {
-    try {
-      const { data } = await AuthService.logInService(email, password);
-      console.log(`authContext: ${data}`);
-      //   StorageControl.storageSetter(data.access_token);
+  useEffect(() => {
+    const tokenInfo = StorageControl.storageGetter("tokenInfo");
+    if (tokenInfo) {
       setIsLoggedIn(true);
-      return "success";
-    } catch (error) {
-      console.log(error);
-      alert(error);
-      return "failed";
     }
+  }, []);
+
+  const logoutHandler = () => {
+    StorageControl.storageRemover("tokenInfo");
+    setIsLoggedIn(false);
+  };
+
+  const loginHandler = () => {
+    setIsLoggedIn(true);
   };
 
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn: isLoggedIn,
+        onLogout: logoutHandler,
         onLogin: loginHandler,
       }}
     >

@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
     "baseUrl": "./src",
-    "target": "es6",
+    "target": "es5",
     "paths": {
-      "assets/*": ["./assets/*"],
-      "components/*": ["./components/*"],
-      "screens/*": ["./screens/*"],
-      "api/*": ["./api/*"],
-      "utils/*": ["./utils/*"],
-      "styles/*": ["./styles/*"],
-      "hooks/*": ["./hooks/*"]
+      "@assets/*": ["./assets/*"],
+      "@components/*": ["./components/*"],
+      "@screens/*": ["./screens/*"],
+      "@api/*": ["./api/*"],
+      "@utils/*": ["./utils/*"],
+      "@styles/*": ["./styles/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@interfaces/*": ["./interfaces/*"]
     },
+    "outDir": "./dist",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

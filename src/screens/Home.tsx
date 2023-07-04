@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styles from "styles/styles.module.scss";
-import coin from "assets/coin.png";
+import styles from "@styles/styles.module.scss";
+import coin from "@assets/img/coin.png";
 
 const Home = () => {
   const textString = "Hello, \nI'm Jinmin Cheon";

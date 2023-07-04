@@ -1,3 +1,4 @@
+import { TokenData } from "@interfaces/token";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 export const api = axios.create({
@@ -7,10 +8,12 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const rawTokenInfo = localStorage.getItem("userInfo");
+    if (rawTokenInfo) {
+      const tokenInfo: TokenData = JSON.parse(rawTokenInfo);
+      config.headers.Authorization = `Bearer ${tokenInfo.accessToken}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -24,7 +27,7 @@ api.interceptors.response.use(
       if (error && error.message) {
         errorMessage = error.message;
       }
-      alert(errorMessage);
+      console.log(`api.ts : ${errorMessage}`);
     }
   }
 );

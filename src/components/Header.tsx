@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "styles/styles.module.scss";
+import styles from "@styles/styles.module.scss";
+import AuthContext from "context/authContext";
 
 const Header = () => {
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
+  const { isLoggedIn, onLogout } = useContext(AuthContext);
 
   const onLogoClick = () => {
     navigate("/");
@@ -21,6 +23,13 @@ const Header = () => {
   const onAuthClick = () => {
     navigate("/signin");
   };
+  const onMyClick = () => {
+    navigate("/my");
+  };
+  const onSignOutClick = () => {
+    onLogout();
+  };
+
   return (
     <>
       <div className={styles.header}>
@@ -49,9 +58,20 @@ const Header = () => {
             <li>
               <button onClick={onConnectClick}>CONNECT</button>
             </li>
-            <li>
-              <button onClick={onAuthClick}>SIGN-IN</button>
-            </li>
+            {isLoggedIn ? (
+              <>
+                <li>
+                  <button onClick={onSignOutClick}>MY</button>
+                </li>
+                <li>
+                  <button onClick={onSignOutClick}>SIGN-OUT</button>
+                </li>
+              </>
+            ) : (
+              <li>
+                <button onClick={onAuthClick}>SIGN-IN</button>
+              </li>
+            )}
           </ul>
         </div>
         {/* tablet, mobile size header toggle menu */}
@@ -66,9 +86,20 @@ const Header = () => {
             <li>
               <button onClick={onConnectClick}>CONNECT</button>
             </li>
-            <li>
-              <button onClick={onAuthClick}>SIGN-IN</button>
-            </li>
+            {isLoggedIn ? (
+              <>
+                <li>
+                  <button onClick={onSignOutClick}>MY</button>
+                </li>
+                <li>
+                  <button onClick={onSignOutClick}>SIGN-OUT</button>
+                </li>
+              </>
+            ) : (
+              <li>
+                <button onClick={onAuthClick}>SIGN-IN</button>
+              </li>
+            )}
           </ul>
         </div>
       </div>
