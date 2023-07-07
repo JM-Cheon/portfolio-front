@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StorageControl } from "@utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
-  isLoggedIn: boolean;
-  onLogout: () => void;
-  onLogin: () => void;
+  isSignIn: boolean;
+  onSignOut: () => void;
+  onSignIn: () => void;
 }
 
 const AuthContext = React.createContext<AuthContextType>({
-  isLoggedIn: false,
-  onLogout: () => {},
-  onLogin: () => {},
+  isSignIn: false,
+  onSignOut: () => {},
+  onSignIn: () => {},
 });
 
 export const AuthContextProvider = ({
@@ -18,30 +19,30 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);
 
   useEffect(() => {
     const tokenInfo = StorageControl.storageGetter("tokenInfo");
     if (tokenInfo) {
-      setIsLoggedIn(true);
+      setIsSignIn(true);
     }
   }, []);
 
-  const logoutHandler = () => {
+  const signOutHandler = () => {
     StorageControl.storageRemover("tokenInfo");
-    setIsLoggedIn(false);
+    setIsSignIn(false);
   };
 
-  const loginHandler = () => {
-    setIsLoggedIn(true);
+  const signInHandler = () => {
+    setIsSignIn(true);
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
-        onLogout: logoutHandler,
-        onLogin: loginHandler,
+        isSignIn: isSignIn,
+        onSignOut: signOutHandler,
+        onSignIn: signInHandler,
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import useAuthMutation from "@hooks/mutations/useAuthMutation";
 import { emailRegex, passwordRegex } from "@utils/regex";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "@styles/styles.module.scss";
 import robot from "@assets/img/robot.png";
@@ -11,21 +11,29 @@ import kakaoButton from "@assets/img/kakaoButton.png";
 import naverButton from "@assets/img/naverButton.png";
 import googleButton from "@assets/img/googleButton.png";
 import signupButton from "@assets/img/signupButton.png";
-import forgotPWButton from "@assets/img/forgotPWButton.png";
+import forgotPwButton from "@assets/img/forgotPwButton.png";
 import FormInput from "./FormInput";
+import { useNavigate } from "react-router-dom";
 
-export type LoginInputs = { email: string; password: string };
+export type SignInInputs = { email: string; password: string };
 
 const SignInForm = () => {
-  const { useLoginMutate } = useAuthMutation();
-  const { mutate: onLogin } = useLoginMutate();
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
+  const { useSignInMutate } = useAuthMutation();
+  const { mutate: signin, isLoading } = useSignInMutate({
+    onError: (message) => {
+      setErrorMsg(message);
+    },
+  });
+
   const {
     register,
     handleSubmit,
     resetField,
     watch,
     formState: { isValid },
-  } = useForm<LoginInputs>();
+  } = useForm<SignInInputs>();
   const emailInput = watch("email");
   const passwordInput = watch("password");
 
@@ -38,14 +46,22 @@ const SignInForm = () => {
     [passwordInput]
   );
 
-  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
+  const onSubmit: SubmitHandler<SignInInputs> = async (data) => {
     const { email, password } = data;
     if (isValid) {
-      onLogin({ email, password });
+      signin({ email, password });
     }
 
     resetField("email");
     resetField("password");
+  };
+
+  const onSignUpClick = () => {
+    navigate("/signup");
+  };
+
+  const onForgotPwClick = () => {
+    navigate("/user/forgot-pw");
   };
 
   return (
@@ -57,7 +73,13 @@ const SignInForm = () => {
           alt="speechBubble"
         />
         <img className={styles.robot} src={robot} alt="robot" />
-        <p className={styles.say}>Please Sign-in!</p>
+        <p className={styles.say}>
+          {isLoading
+            ? "Now Loading..."
+            : errorMsg === ""
+            ? "Please Sign-In..!"
+            : errorMsg}
+        </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* 컴포넌트로 제작 예정 */}
@@ -100,18 +122,24 @@ const SignInForm = () => {
           )}
         </button>
         <div className={styles.signupArea}>
-          <button>
+          <button onClick={onSignUpClick}>
             <img src={signupButton} alt="signup" />
           </button>
-          <button>
-            <img src={forgotPWButton} alt="forgotPW" />
+          <button onClick={onForgotPwClick}>
+            <img src={forgotPwButton} alt="forgotPW" />
           </button>
         </div>
       </form>
       <div className={styles.snsArea}>
-        <img className={styles.snsButton} src={kakaoButton} alt="kakao" />
-        <img className={styles.snsButton} src={naverButton} alt="naver" />
-        <img className={styles.snsButton} src={googleButton} alt="google" />
+        <button>
+          <img className={styles.snsButton} src={kakaoButton} alt="kakao" />
+        </button>
+        <button>
+          <img className={styles.snsButton} src={naverButton} alt="naver" />
+        </button>
+        <button>
+          <img className={styles.snsButton} src={googleButton} alt="google" />
+        </button>
       </div>
     </div>
   );

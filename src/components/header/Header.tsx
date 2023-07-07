@@ -6,7 +6,7 @@ import AuthContext from "context/authContext";
 const Header = () => {
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
-  const { isLoggedIn, onLogout } = useContext(AuthContext);
+  const { isSignIn, onSignOut } = useContext(AuthContext);
 
   const onLogoClick = () => {
     navigate("/");
@@ -17,17 +17,18 @@ const Header = () => {
   const onAboutClick = () => {
     navigate("/about");
   };
-  const onConnectClick = () => {
-    navigate("/connect");
+  const onResumeClick = () => {
+    navigate("/resume");
   };
   const onAuthClick = () => {
     navigate("/signin");
   };
   const onMyClick = () => {
-    navigate("/my");
+    navigate("/user/my");
   };
   const onSignOutClick = () => {
-    onLogout();
+    onSignOut();
+    navigate("/");
   };
 
   return (
@@ -56,12 +57,12 @@ const Header = () => {
               <button onClick={onAboutClick}>ABOUT</button>
             </li>
             <li>
-              <button onClick={onConnectClick}>CONNECT</button>
+              <button onClick={onResumeClick}>RESUME</button>
             </li>
-            {isLoggedIn ? (
+            {isSignIn ? (
               <>
                 <li>
-                  <button onClick={onSignOutClick}>MY</button>
+                  <button onClick={onMyClick}>MY</button>
                 </li>
                 <li>
                   <button onClick={onSignOutClick}>SIGN-OUT</button>
@@ -84,12 +85,12 @@ const Header = () => {
               <button onClick={onAboutClick}>ABOUT</button>
             </li>
             <li>
-              <button onClick={onConnectClick}>CONNECT</button>
+              <button onClick={onResumeClick}>RESUME</button>
             </li>
-            {isLoggedIn ? (
+            {isSignIn ? (
               <>
                 <li>
-                  <button onClick={onSignOutClick}>MY</button>
+                  <button onClick={onMyClick}>MY</button>
                 </li>
                 <li>
                   <button onClick={onSignOutClick}>SIGN-OUT</button>

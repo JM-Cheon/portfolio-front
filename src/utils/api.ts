@@ -27,7 +27,10 @@ api.interceptors.response.use(
       if (error && error.message) {
         errorMessage = error.message;
       }
-      console.log(`api.ts : ${errorMessage}`);
+      console.log(`api : ${errorMessage}`);
+      if (error.response) {
+        return error.response;
+      }
     }
   }
 );

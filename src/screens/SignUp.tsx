@@ -1,7 +1,12 @@
+import SignUpForm from "@components/form/SignUpForm";
+import styles from "@styles/styles.module.scss";
+
 const SignUp = () => {
   return (
     <>
-      <h1>Sign-Up Page</h1>
+      <div className={styles.signin}>
+        <SignUpForm />
+      </div>
     </>
   );
 };

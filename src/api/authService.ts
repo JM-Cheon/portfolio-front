@@ -2,7 +2,7 @@ import { api } from "@utils/api";
 import { AxiosResponse } from "@interfaces/axios";
 import { TokenData } from "@interfaces/token";
 
-const logInService = async (email: string, password: string) => {
+const signInService = async (email: string, password: string) => {
   const res = await api.post<AxiosResponse<TokenData>>(
     "auth/signin",
     JSON.stringify({ email, password })
@@ -10,8 +10,17 @@ const logInService = async (email: string, password: string) => {
   return res;
 };
 
+const signUpService = async (email: string, password: string) => {
+  const res = await api.post<AxiosResponse<TokenData>>(
+    "auth/signup",
+    JSON.stringify({ email, password })
+  );
+  return res;
+};
+
 const AuthService = {
-  logInService,
+  signInService,
+  signUpService,
 };
 
 export default AuthService;

@@ -7,9 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 const useAuthMutation = () => {
   const navigate = useNavigate();
-  const { onLogin } = useContext(AuthContext);
+  const { onSignIn } = useContext(AuthContext);
 
-  const useLoginMutate = () => {
+  const useSignInMutate = ({
+    onError,
+  }: {
+    onError: (message: string) => void;
+  }) => {
     return useMutation({
       mutationKey: ["signin"],
       mutationFn: ({
@@ -19,18 +23,59 @@ const useAuthMutation = () => {
         email: string;
         password: string;
       }) => {
-        return AuthService.logInService(email, password);
+        return AuthService.signInService(email, password);
       },
-      onSuccess: (user) => {
-        const { data } = user.data;
+      onSuccess: (tokenInfo) => {
+        if (!tokenInfo) {
+          return onError("Server is not ready...");
+        }
+        if (tokenInfo.status !== 200) {
+          return onError("Email or PW not valid..!");
+        }
+        const { data } = tokenInfo.data;
         StorageControl.storageSetter("tokenInfo", JSON.stringify(data));
-        onLogin();
+        onSignIn();
         navigate("/");
+      },
+      onError: (error) => {
+        console.log(error);
       },
     });
   };
 
-  return { useLoginMutate };
+  const useSignUpMutate = ({
+    onError,
+  }: {
+    onError: (message: string) => void;
+  }) => {
+    return useMutation({
+      mutationKey: ["signup"],
+      mutationFn: ({
+        email,
+        password,
+      }: {
+        email: string;
+        password: string;
+      }) => {
+        return AuthService.signUpService(email, password);
+      },
+      onSuccess: (result) => {
+        if (!result) {
+          return onError("Server is not ready...");
+        }
+        if (result.status !== 201) {
+          return onError("Sign-Up Failed..!");
+        }
+
+        navigate("/signin");
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+  };
+
+  return { useSignInMutate, useSignUpMutate };
 };
 
 export default useAuthMutation;

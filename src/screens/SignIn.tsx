@@ -1,5 +1,5 @@
 import React from "react";
-import SignInForm from "@components/SignInForm";
+import SignInForm from "@components/form/SignInForm";
 import styles from "@styles/styles.module.scss";
 
 const SignIn = () => {
